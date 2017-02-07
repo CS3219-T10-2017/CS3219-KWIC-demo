@@ -177,6 +177,11 @@ public class MainView extends JFrame implements KwicUi {
 	}
 
 	@Override
+	public void setInputWords(String inputWords) {
+		linesInput.setText(inputWords);
+	}
+
+	@Override
 	public Set<String> getIgnoredWords() {
 		String ignoreWords = ignoreWordsInput.getText();
 		String[] ignoreWordsList = ignoreWords.split("\n");
@@ -186,12 +191,20 @@ public class MainView extends JFrame implements KwicUi {
 		}
 		return ignoreWordsSet;
 	}
+
+	@Override
+	public void setIgnoredWords(String ignoreWords) {
+		ignoreWordsInput.setText(ignoreWords);
+	}
 	
 	@Override
 	public Set<String> getRequiredWords() {
 		String requiredWords = requiredWordsInput.getText();
-		String[] requiredWordsList = requiredWords.split("\n");
 		Set<String> requiredWordsSet = new HashSet<>();
+		if (requiredWords.isEmpty()) {
+			return requiredWordsSet;
+		}
+		String[] requiredWordsList = requiredWords.split("\n");
 		for (String word : requiredWordsList) {
 			requiredWordsSet.add(word);
 		}
@@ -199,7 +212,12 @@ public class MainView extends JFrame implements KwicUi {
 	}
 
 	@Override
-	public void setResutls(List<String> results) {
+	public void setRequiredWords(String requiredWords) {
+		requiredWordsInput.setText(requiredWords);
+	}
+
+	@Override
+	public void setResults(List<String> results) {
 		if (results.isEmpty()) {
 			resultsOutput.setText("");
 			return;

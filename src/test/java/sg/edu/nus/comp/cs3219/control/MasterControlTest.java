@@ -30,12 +30,14 @@ public class MasterControlTest {
 		ignoreWords.add("a");
 		ignoreWords.add("after");
 
+		Set<String> requiredWords = new HashSet<>();
+
 		List<String> input = new ArrayList<>();
 		input.add("The Day after Tomorrow");
 		input.add("Fast and Furious");
 		input.add("Man of Steel");
 
-		List<String> result = master.run(input, ignoreWords);
+		List<String> result = master.run(input, ignoreWords, requiredWords);
 
 		assertEquals(6, result.size());
 		assertEquals("Day after Tomorrow the", result.get(0));
@@ -66,7 +68,7 @@ public class MasterControlTest {
 		input.add("Fast and Furious");
 		input.add("Man of Steel");
 
-		List<String> result = master.run(input, ignoreWords);
+		List<String> result = master.run(input, ignoreWords, requiredWords);
 
 		assertEquals(2, result.size());
 		assertEquals("Day after tomorrow the", result.get(0));

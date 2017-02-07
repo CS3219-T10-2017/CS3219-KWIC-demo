@@ -1,8 +1,6 @@
 package sg.edu.nus.comp.cs3219.ui;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Set;
 
@@ -23,6 +21,11 @@ public class UiController {
 		String[] getInputArray();
 
 		/**
+		 * Set the UI for input words
+		 */
+		void setInputWords(String inputWords);
+
+		/**
 		 * Get the output text area in the UI
 		 */
 		JTextArea getOutputTextArea();
@@ -33,14 +36,24 @@ public class UiController {
 		Set<String> getIgnoredWords();
 
 		/**
+		 * Set the UI for "words to ignore"
+		 */
+		void setIgnoredWords(String ignoreWords);
+
+		/**
 		 * Get the "required words" set
 		 */
 		Set<String> getRequiredWords();
 
 		/**
+		 * Set the UI for "required words"
+		 */
+		void setRequiredWords(String requiredWords);
+
+		/**
 		 * Set the generated KWIC results in the UI
 		 */
-		void setResutls(List<String> results);
+		void setResults(List<String> results);
 
 		/**
 		 * Set the UI Controller
@@ -57,15 +70,54 @@ public class UiController {
 		controller = new MasterControl();
 	}
 
+	public void readFile(String fileName) {
+		StringBuilder inputWords = new StringBuilder();
+		StringBuilder ignoreWords = new StringBuilder();
+		StringBuilder requiredWords = new StringBuilder();
+
+		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+			String[] ignoreWordsArr = br.readLine().split(", ");
+			String[] requiredWordsArr = br.readLine().split(", ");
+			String line = br.readLine();
+
+			for (String ignoreWord: ignoreWordsArr) {
+				ignoreWords.append(ignoreWord)
+							.append("\n");
+			}
+			for (String requiredWord: requiredWordsArr) {
+				requiredWords.append(requiredWord)
+						.append("\n");
+			}
+
+			while (line != null) {
+				inputWords.append(line);
+				inputWords.append("\n");
+				line = br.readLine();
+			}
+
+			view.setIgnoredWords(ignoreWords.toString());
+			view.setRequiredWords(requiredWords.toString());
+			view.setInputWords(inputWords.toString());
+			generateResult();
+
+		} catch (FileNotFoundException e) {
+			System.out.format("file:%s not found",fileName);
+			return;
+		} catch (IOException e) {
+			System.out.format("file:%s not readable",fileName);
+			return;
+		}
+	}
+
 	public void generateResult() {
 		// Get entered ignored words from GUI
 		Set<String> ignoredWordsSet = view.getIgnoredWords();
 		// Get entered required words from GUI
 		Set<String> requiredWordsSet = view.getRequiredWords();
 		// Run the application
-		List<String> result = controller.run(view.getInput(), ignoredWordsSet);
+		List<String> result = controller.run(view.getInput(), ignoredWordsSet, requiredWordsSet);
 		// Display result
-		view.setResutls(result);
+		view.setResults(result);
 	}
 
 	public void exportResultToFile(String data) {
