@@ -35,6 +35,7 @@ public class RequiredWordsFilter implements Observer {
 		}
 	}
 
+	
 	private void filterRequiredWords(Line line) {
 		if (requiredWords.isEmpty()) {
 			resultStorage.addLine(line.toString());
