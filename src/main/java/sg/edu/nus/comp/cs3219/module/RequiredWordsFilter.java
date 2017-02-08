@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import sg.edu.nus.comp.cs3219.event.LineStorageChangeEvent;
 import sg.edu.nus.comp.cs3219.model.Line;
@@ -16,7 +17,7 @@ public class RequiredWordsFilter implements Observer {
 	public RequiredWordsFilter(LineStorage storage) {
 		resultStorage = storage;
 	}
-	
+
 	public void setRequiredWords(Set<String> requiredWordSet) {
 		requiredWords = requiredWordSet;
 	}
@@ -41,6 +42,7 @@ public class RequiredWordsFilter implements Observer {
 			resultStorage.addLine(line.toString());
 			return;
 		}
+
 		// Add word if starting word is in required word
 		if (isRequiredWords(line.getWord(0))) {
 			System.out.println(line.toString());
@@ -49,7 +51,10 @@ public class RequiredWordsFilter implements Observer {
 	}
 
 	private boolean isRequiredWords(String word) {
-		return requiredWords.contains(word.toLowerCase());
-	}
+        // set up predicate for requireWords stream
+        Predicate<String> equalsIgnoreCase = e -> e.equalsIgnoreCase(word);
 
+        // if any of the requiredWords matches the word, return true; otherwise false
+        return requiredWords.stream().anyMatch(equalsIgnoreCase);
+	}
 }

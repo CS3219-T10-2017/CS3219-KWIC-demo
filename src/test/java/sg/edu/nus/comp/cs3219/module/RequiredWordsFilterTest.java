@@ -20,8 +20,9 @@ public class RequiredWordsFilterTest {
 		afterFilterStorage = new LineStorage();
 		requiredWordsFilter = new RequiredWordsFilter(afterFilterStorage);
 		Set<String> words = new HashSet<>();
-		words.add("Space");
 		words.add("Star");
+		words.add("Fast");
+		words.add("Man");
 		requiredWordsFilter.setRequiredWords(words);
 		inputLineStorage.addObserver(requiredWordsFilter);
 	}
@@ -34,9 +35,10 @@ public class RequiredWordsFilterTest {
 		inputLineStorage.addLine("2001: a Space Odyssey");
 		inputLineStorage.addLine("Man of Steel");
 
-		assertEquals(2, afterFilterStorage.size());
+		assertEquals(3, afterFilterStorage.size());
 
-		assertEquals("Space Odyssey 2001: a", afterFilterStorage.get(0).toString());
-		assertEquals("Star Trek", afterFilterStorage.get(1).toString());
+		assertEquals("Star Trek", afterFilterStorage.get(0).toString());
+		assertEquals("Fast and Furious", afterFilterStorage.get(1).toString());
+		assertEquals("Man of Steel", afterFilterStorage.get(2).toString());
 	}
 }
