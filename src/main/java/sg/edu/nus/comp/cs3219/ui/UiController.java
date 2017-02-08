@@ -76,8 +76,8 @@ public class UiController {
 		StringBuilder requiredWords = new StringBuilder();
 
 		try(BufferedReader br = new BufferedReader(new FileReader(fileName))) {
-			String[] ignoreWordsArr = br.readLine().split(", ");
-			String[] requiredWordsArr = br.readLine().split(", ");
+			String[] ignoreWordsArr = br.readLine().split(",(\\s+)?");
+			String[] requiredWordsArr = br.readLine().split(",(\\s+)?");
 			String line = br.readLine();
 
 			for (String ignoreWord: ignoreWordsArr) {
