@@ -41,4 +41,15 @@ public class RequiredWordsFilterTest {
 		assertEquals("Fast and Furious", afterFilterStorage.get(1).toString());
 		assertEquals("Man of Steel", afterFilterStorage.get(2).toString());
 	}
+
+	@Test
+	public void testEmptyRequiredWords(){
+		inputLineStorage.addLine("Star Trek");
+		inputLineStorage.addLine("Fast and Furious");
+		inputLineStorage.addLine("Man of Steel");
+
+		assertEquals("Star Trek", afterFilterStorage.get(0).toString());
+		assertEquals("Fast and Furious", afterFilterStorage.get(1).toString());
+		assertEquals("Man of Steel", afterFilterStorage.get(2).toString());
+	}
 }
