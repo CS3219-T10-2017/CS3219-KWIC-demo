@@ -45,7 +45,6 @@ public class RequiredWordsFilter implements Observer {
 
 		// Add word if starting word is in required word
 		if (isRequiredWords(line.getWord(0))) {
-			System.out.println(line.toString());
 			resultStorage.addLine(line.toString());
 		}
 	}
